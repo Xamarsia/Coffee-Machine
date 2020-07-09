@@ -3,6 +3,9 @@ milk = 540
 coffee = 120
 disposable_cups = 9
 money = 550
+status = True
+variable = " "
+
 
 
 def coffee_machine_has():
@@ -15,78 +18,115 @@ def coffee_machine_has():
     return
 
 
-coffee_machine_has()
-option = input("Write action (buy, fill, take):")
-
-
 def buy():
     order = input("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
     if order == '1':
         global water
-        water = water - 250
         global milk
-        milk = milk - 0
         global coffee
-        coffee = coffee - 16
         global disposable_cups
-        disposable_cups = disposable_cups - 1
         global money
+        global variable
+        if water < 250:
+            variable = "water"
+        if coffee < 16:
+            variable = "coffee"
+        if disposable_cups < 1:
+            variable = "cups"
+
+        if water < 250 or coffee < 16 or disposable_cups < 1:
+            print("Sorry, not enough {}!".format(variable))
+        else:
+            print("I have enough resources, making you a coffee!")
+        water = water - 250
+        milk = milk - 0
+        coffee = coffee - 16
+        disposable_cups = disposable_cups - 1
         money = money + 4
-        coffee_machine_has()
 
     elif order == '2':
-        # global water
-        water = water - 350
-        # global milk
-        milk = milk - 75
-        # global coffee
-        coffee = coffee - 20
-        # global disposable_cups
-        disposable_cups = disposable_cups - 1
-        # global money
-        money = money + 7
-        coffee_machine_has()
+        if water < 350:
+            variable = "water"
+        elif milk < 75:
+            variable = "milk"
+        elif coffee < 16:
+            variable = "coffee"
+        elif disposable_cups < 1:
+            variable = "cups"
+
+        if water < 350 or milk < 75 or coffee < 20 or disposable_cups < 1:
+            print("Sorry, not enough {}!".format(variable))
+        else:
+            print("I have enough resources, making you a coffee!")
+            water = water - 350
+            milk = milk - 75
+            coffee = coffee - 20
+            disposable_cups = disposable_cups - 1
+            money = money + 7
 
     elif order == '3':
-        # global water
-        water = water - 200
-        # global milk
-        milk = milk - 100
-        # global coffee
-        coffee = coffee - 12
-        # global disposable_cups
-        disposable_cups = disposable_cups - 1
-        # global money
-        money = money + 6
-        coffee_machine_has()
+        if water < 200:
+            variable = "water"
+        elif milk < 100:
+            variable = "milk"
+        elif coffee < 12:
+            variable = "coffee"
+        elif disposable_cups < 1:
+            variable = "cups"
+
+        if water < 200 or milk < 100 or coffee < 12 or disposable_cups < 1:
+            print("Sorry, not enough {}!".format(variable))
+        else:
+            print("I have enough resources, making you a coffee!")
+            water = water - 200
+            milk = milk - 100
+            coffee = coffee - 12
+            disposable_cups = disposable_cups - 1
+            money = money + 6
     return
 
 
 def fill():
-    water = int(input("Write how many ml of water do you want to add:"))
-    milk = int(input("Write how many ml of milk do you want to add:"))
-    coffee = int(input("Write how many grams of coffee beans do you want to add:"))
-    disposable_cups = int(input("Write how many disposable cups of coffee do you want to add:"))
-    print("The coffee machine has: \n" +
-        str(water + 400) + " of water \n" +
-        str(milk + 540) + " of milk \n" +
-        str(coffee + 120) + " of coffee beans \n" +
-        str(disposable_cups + 9) + " of disposable cups \n"
-                                     "550 of money \n")
+    wat = int(input("Write how many ml of water do you want to add:"))
+    mil = int(input("Write how many ml of milk do you want to add:"))
+    cof = int(input("Write how many grams of coffee beans do you want to add:"))
+    cups = int(input("Write how many disposable cups of coffee do you want to add:"))
+    global water
+    water = wat + water
+    global milk
+    milk = mil + milk
+    global coffee
+    coffee = cof + coffee
+    global disposable_cups
+    disposable_cups = cups + disposable_cups
     return
+
+
+def remaining():
+    coffee_machine_has()
+
+
+def exit():
+    global status
+    status = False
 
 
 def take():
     global money
     print("I gave you $" + str(money))
     money = 0
-    coffee_machine_has()
     return
 
 
-if option == 'buy':
-    buy()
-elif option == 'fill':
-    fill()
-elif option == 'take':
-    take()
+while status:
+    option = input("Write action (buy, fill, take, remaining, exit):")
+    if option == 'buy':
+        buy()
+    elif option == 'fill':
+        fill()
+    elif option == 'take':
+        take()
+    elif option == 'remaining':
+        remaining()
+    elif option == 'exit':
+        exit()
